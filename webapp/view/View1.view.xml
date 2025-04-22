@@ -1,0 +1,50 @@
+<mvc:View controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:m="sap.m"
+    xmlns="sap.ui.table">
+    <m:Page id="page" title="My SAP UI5 Project" showHeader="false">
+    <m:content>
+        <Table id="idUsers" rows="{/users}" selectionMode="MultiToggle">
+        	<extension>
+					<m:OverflowToolbar id="idToolbar" style="Clear">
+						<m:Title id="title" text="Users"/>
+                        <m:ToolbarSpacer id="idToolvarSpace" />
+                        <m:SearchField
+                            id="idSearch"
+							placeholder="Filter"
+							value="{ui>/globalFilter}"
+							search="filterGlobally"
+							width="15rem"/>
+                        <m:ToggleButton id="idAdd" icon="sap-icon://add-employee" press="onOpenAddDialog"/>
+                        <m:ToggleButton id="idDelete" icon="sap-icon://delete"/>
+					</m:OverflowToolbar>
+				</extension>
+            <columns>
+					<Column id="idUser" width="11rem" sortProperty="UserID" filterProperty="UserID">
+						<m:Label id="labelUser" text="User Id" />
+						<template>
+							<m:Label id="inputUser" text="{UserID}"/>
+						</template>
+					</Column>
+                    <Column id="idName" width="11rem" sortProperty="Name" filterProperty="Name">
+						<m:Label id="labelName" text="Name" />
+						<template>
+							<m:Text id="txtName" text="{Name}" wrapping="false" />
+						</template>
+					</Column>
+                    <Column id="idEmail" width="11rem" sortProperty="Email" filterProperty="Email">
+						<m:Label id="labelEmail" text="Email" />
+						<template>
+							<m:Input id="imputEmail" value="{Email}"/>
+						</template>
+					</Column>
+                    <Column >
+						<template>
+							<m:Button icon="sap-icon://user-edit" press="onUserEditDialog"></m:Button>
+						</template>
+					</Column>
+            </columns>
+        </Table>
+    </m:content>
+    </m:Page>
+</mvc:View>

@@ -3,15 +3,57 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core">
-	<Dialog id="addDialog" title="Add User">
+	<Dialog id="addDialog" title="Create Order" contentWidth="30%">
     <content>
         <VBox>
             <f:SimpleForm id="formContainer">
                 <f:content>
-                    <Label text="Name"/>
-					<Input id="NameID" required="true" />
-                    <Label text="Email"/>
-					<Input id="EmailID" required="true" />
+                    <Label text="Order"/>
+                    <Input id="idOrder" required="true" enabled="false"/>
+                    
+                    <Label text="Order Type"/>
+                    <Select id="idOrderType" items="{filters>/orderTypes}" required="true">
+                        <items>
+                            <core:Item key="{filters>}" text="{filters>}" />
+                        </items>
+                    </Select>
+
+                    <Label text="Plant"/>
+                    <Select id="idPlant" items="{filters>/plants}" required="true">
+                        <items>
+                            <core:Item key="{filters>}" text="{filters>}" />
+                        </items>
+                    </Select>
+
+                    <Label text="Description"/>
+                    <Input id="idDescription" required="true"/>
+
+                    <Label text="Work Center"/>
+                    <Select id="idWorkCenter" items="{filters>/workCenters}" required="true">
+                        <items>
+                            <core:Item key="{filters>}" text="{filters>}" />
+                        </items>
+                    </Select>
+
+                    <Label text="Basic Start Date"/>
+                    <DatePicker id="idStartDate" placeholder="Basic Start Date" required="true"  displayFormat="dd/MM/yyyy" valueFormat="yyyy-MM-dd"/>
+
+                    <Label text="Basic Finish Date"/>
+                    <DatePicker id="idFinishDate" placeholder="Basic Finish Date" required="true"  displayFormat="dd/MM/yyyy" valueFormat="yyyy-MM-dd"/>
+
+                    <Label text="Functional Location"/>
+                    <Select id="idFuncLoc" items="{filters>/functionalLocations}" required="true">
+                        <items>
+                            <core:Item key="{filters>}" text="{filters>}" />
+                        </items>
+                    </Select>
+
+                    <Label text="Equipment"/>
+                    <Select id="idEquip" items="{filters>/equipments}" required="true">
+                        <items>
+                            <core:Item key="{filters>}" text="{filters>}" />
+                        </items>
+                    </Select>
                 </f:content>
             </f:SimpleForm>
         </VBox>

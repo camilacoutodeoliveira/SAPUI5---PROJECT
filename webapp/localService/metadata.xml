@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="2.0"
+      xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="mock" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityType Name="Order">
+        <Key>
+          <PropertyRef Name="Order"/>
+        </Key>
+        <Property Name="Order" Type="Edm.String" Nullable="false"/>
+        <Property Name="Order Type" Type="Edm.String"/>
+        <Property Name="Status" Type="Edm.String"/>
+        <Property Name="Plant" Type="Edm.String"/>
+        <Property Name="Description" Type="Edm.String"/>
+        <Property Name="Work Center" Type="Edm.String"/>
+        <Property Name="Basic Start Date" Type="Edm.DateTime" m:Nullable="true"/>
+        <Property Name="Basic Finish Date" Type="Edm.DateTime" m:Nullable="true"/>
+        <Property Name="Functional Location" Type="Edm.String"/>
+        <Property Name="Equipment" Type="Edm.String"/>
+      </EntityType>
+      <EntityContainer Name="mockEntities" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="Orders" EntityType="mock.Order"/>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

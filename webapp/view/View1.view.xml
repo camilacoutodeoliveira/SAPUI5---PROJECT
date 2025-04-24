@@ -1,50 +1,61 @@
 <mvc:View controllerName="project1.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:m="sap.m"
-    xmlns="sap.ui.table">
-    <m:Page id="page" title="My SAP UI5 Project" showHeader="false">
+	xmlns:core="sap.ui.core"
+    xmlns:m="sap.m">
+    <m:Page id="page" title="My SAP UI5 Project" showHeader="true" >
     <m:content>
-        <Table id="idUsers" rows="{/users}" selectionMode="MultiToggle">
-        	<extension>
-					<m:OverflowToolbar id="idToolbar" style="Clear">
-						<m:Title id="title" text="Users"/>
-                        <m:ToolbarSpacer id="idToolvarSpace" />
-                        <m:SearchField
+	<m:VBox
+      class="sapUiMediumMargin orderList">
+        <m:Table id="idOrdersTable" items="{/Orders}" width="100%" mode="MultiSelect" alternateRowColors="true" growing="true" growingThreshold="10">
+			<m:headerToolbar>
+					<m:OverflowToolbar>
+						<m:Title id="title" text="{= 'Orders (' + ${/Orders}.length + ')' }" />
+						<m:ToolbarSpacer/>
+						 <m:SearchField
                             id="idSearch"
 							placeholder="Filter"
 							value="{ui>/globalFilter}"
 							search="filterGlobally"
-							width="15rem"/>
-                        <m:ToggleButton id="idAdd" icon="sap-icon://add-employee" press="onOpenAddDialog"/>
-                        <m:ToggleButton id="idDelete" icon="sap-icon://delete"/>
+							width="50rem"/>
+							<m:Button id="idAdd" icon="sap-icon://add" text="Create Order" press="onOpenAddDialog" />
+                        	<m:ToggleButton id="idDelete" icon="sap-icon://delete" press="onDeleteOrders"/>
 					</m:OverflowToolbar>
-				</extension>
-            <columns>
-					<Column id="idUser" width="11rem" sortProperty="UserID" filterProperty="UserID">
-						<m:Label id="labelUser" text="User Id" />
-						<template>
-							<m:Label id="inputUser" text="{UserID}"/>
-						</template>
-					</Column>
-                    <Column id="idName" width="11rem" sortProperty="Name" filterProperty="Name">
-						<m:Label id="labelName" text="Name" />
-						<template>
-							<m:Text id="txtName" text="{Name}" wrapping="false" />
-						</template>
-					</Column>
-                    <Column id="idEmail" width="11rem" sortProperty="Email" filterProperty="Email">
-						<m:Label id="labelEmail" text="Email" />
-						<template>
-							<m:Input id="imputEmail" value="{Email}"/>
-						</template>
-					</Column>
-                    <Column >
-						<template>
-							<m:Button icon="sap-icon://user-edit" press="onUserEditDialog"></m:Button>
-						</template>
-					</Column>
-            </columns>
-        </Table>
+				</m:headerToolbar>
+            <m:columns>
+					<m:Column ><m:Text text="Status" /></m:Column>
+					<m:Column ><m:Text text="Order" /></m:Column>
+					<m:Column ><m:Text width="20rem" text="Description" /></m:Column>
+					<m:Column ><m:Text text="Order Type" /></m:Column>
+					<m:Column minScreenWidth="Tablet" demandPopin="true"><m:Text text="Plant" /></m:Column>
+					<m:Column minScreenWidth="Tablet" demandPopin="true"><m:Text text="Work Center" /></m:Column>
+					<m:Column minScreenWidth="Tablet" demandPopin="true"><m:Text text="Basic Start Date" /></m:Column>
+					<m:Column minScreenWidth="Tablet" demandPopin="true"><m:Text text="Basic Finish Date" /></m:Column>
+					<m:Column><m:Text text="Functional Location" /></m:Column>
+					<m:Column><m:Text text="Equipment" /></m:Column>
+					<m:Column width="5rem"></m:Column>
+            </m:columns>
+			<m:items>
+			<m:ColumnListItem>
+				<m:cells>
+					<m:ObjectIdentifier text="{Status}" />
+					<m:ObjectIdentifier text="{Order}" />
+					<m:Text text="{Description}" />
+					<m:Text text="{OrderType}" />
+					<m:Text text="{Plant}" />
+					<m:Text text="{WorkCenter}" />
+					<m:Text text="{BasicStartDate}" />
+					<m:Text text="{BasicFinishDate}" />
+					<m:Text text="{FunctionalLocation}" />
+					<m:Text text="{Equipment}" />
+					<m:Button icon="sap-icon://edit" press="onOrderEditDialog"/>
+				</m:cells>
+					</m:ColumnListItem>
+			</m:items>
+        </m:Table>
+	</m:VBox>
     </m:content>
     </m:Page>
 </mvc:View>
+
+
+

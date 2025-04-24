@@ -1,0 +1,47 @@
+{
+    "orderTypes": [
+      "PM01",
+      "PM02",
+      "PM03",
+      "PM04",
+      "PM05"
+    ],
+    "plants": [
+      "1000",
+      "2000",
+      "3000",
+      "4000",
+      "5000"
+    ],
+    "workCenters": [
+      "D0011",
+      "D0022",
+      "D0033",
+      "D0044",
+      "D0052",
+      "D0061",
+      "D0070"
+    ],
+    "functionalLocations": [
+      "Boiler",
+      "Compressor Room",
+      "Cooling Tower",
+      "Conveyor Belt",
+      "Filter System",
+      "Packing Line",
+      "Water Tank"
+    ],
+    "equipments": [
+      "Motor (10006901)",
+      "Motor (10006902)",
+      "Motor (10006903)",
+      "Motor (10006904)",
+      "Motor (10006905)",
+      "Motor (10006906)",
+      "Motor (10006907)",
+      "Motor (10006908)",
+      "Motor (10006909)",
+      "Motor (10006910)"
+    ]
+  }
+  

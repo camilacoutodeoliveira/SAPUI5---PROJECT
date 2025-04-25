@@ -11,6 +11,28 @@ sap.ui.define([
     Dialog
 ) => {
     "use strict";
+
+    const ID_ORDER = "idOrder";
+    const ID_ORDER_TYPE = "idOrderType";
+    const ID_PLANT = "idPlant";
+    const ID_DESCRIPTION = "idDescription";
+    const ID_WORK_CENTER = "idWorkCenter";
+    const ID_START_DATE = "idStartDate";
+    const ID_FINISH_DATE = "idFinishDate";
+    const ID_FUNC_LOC = "idFuncLoc";
+    const ID_EQUIP = "idEquip";
+
+     const ORDER = "Order";
+     const ORDER_TYPE = "OrderType";
+     const STATUS = "Status";
+     const PLANT = "Plant";
+     const DESCRIPTION = "Description";
+     const WORK_CENTER = "WorkCenter";
+     const BASIC_START_DATE = "BasicStartDate";
+     const BASIC_FINISH_DATE = "BasicFinishDate";
+     const FUNCTIONAL_LOCATION = "FunctionalLocation";
+     const EQUIPMENT = "Equipment";
+
     return Controller.extend("project1.controller.View1", {
         onInit() {
             this.onSetUserModel();
@@ -28,6 +50,8 @@ sap.ui.define([
         onExit(){
             console.log('onExit')
         },
+        
+        //#region Set MockData
 
         onSetUserModel(){
           const oModel = new JSONModel();
@@ -59,22 +83,26 @@ sap.ui.define([
             this.getView().setModel(oFilterModel, "filters");
         },
 
+        //#endregion
+
+        //#region Events
+
         filterGlobally(oEvent){
             const sQuery = oEvent.getParameter("query");
             this._oGloballyFilter = null;
 
             if(sQuery){
                 this._oGloballyFilter = new Filter([
-                    new Filter("Order", FilterOperator.Contains, sQuery),
-                    new Filter("OrderType", FilterOperator.Contains, sQuery),
-                    new Filter("Status", FilterOperator.Contains, sQuery),
-                    new Filter("Plant", FilterOperator.Contains, sQuery),
-                    new Filter("Description", FilterOperator.Contains, sQuery),
-                    new Filter("WorkCenter", FilterOperator.Contains, sQuery),
-                    new Filter("BasicStartDate", FilterOperator.Contains, sQuery),
-                    new Filter("BasicFinishDate", FilterOperator.Contains, sQuery),
-                    new Filter("FunctionalLocation", FilterOperator.Contains, sQuery),
-                    new Filter("Equipment", FilterOperator.Contains, sQuery)
+                    new Filter(ORDER, FilterOperator.Contains, sQuery),
+                    new Filter(ORDER_TYPE, FilterOperator.Contains, sQuery),
+                    new Filter(STATUS, FilterOperator.Contains, sQuery),
+                    new Filter(PLANT, FilterOperator.Contains, sQuery),
+                    new Filter(DESCRIPTION, FilterOperator.Contains, sQuery),
+                    new Filter(WORK_CENTER, FilterOperator.Contains, sQuery),
+                    new Filter(BASIC_START_DATE, FilterOperator.Contains, sQuery),
+                    new Filter(BASIC_FINISH_DATE, FilterOperator.Contains, sQuery),
+                    new Filter(FUNCTIONAL_LOCATION, FilterOperator.Contains, sQuery),
+                    new Filter(EQUIPMENT, FilterOperator.Contains, sQuery)
                 ])
             }
             const oTable = this.byId("idOrdersTable");
@@ -103,7 +131,8 @@ sap.ui.define([
             oTable.removeSelections(); 
             sap.m.MessageToast.show("Item(s) removed successfully!");
         },
-          
+        
+        //#endregion
 
         //#region Add Dialog
 
@@ -118,8 +147,23 @@ sap.ui.define([
               this.oDialog = oDialog;
               this.oDialog.mProperties.title = "Create Order"
               this.oDialog.open();
+              const sOrder = this.onCreateOrderNumber();
+              this.byId(ID_ORDER).setValue(sOrder);
 
           }.bind(this));
+        },
+
+        onCreateOrderNumber(){
+            const oModel = this.getView().getModel();
+            const oOrders = oModel.getProperty("/Orders") || [];
+
+            const lastOrderNumber = oOrders.length > 0
+            ? Math.max(...oOrders.map(order => order.Order))
+            : baseNumber;
+
+            const nextOrder = lastOrderNumber + 1;
+
+            return nextOrder;
         },
 
         onOrderEditDialog(oEvent) {
@@ -139,37 +183,36 @@ sap.ui.define([
         },
 
         onEditOrder(oOrder){
-
-            this.byId("idOrder").setValue(oOrder.Order);
-            this.byId("idOrderType").setSelectedKey(oOrder.OrderType);
-            this.byId("idPlant").setSelectedKey(oOrder.Plant);
-            this.byId("idDescription").setValue(oOrder.Description);
-            this.byId("idWorkCenter").setSelectedKey(oOrder.WorkCenter);
-            this.byId("idStartDate").setValue(oOrder.BasicStartDate);
-            this.byId("idFinishDate").setValue(oOrder.BasicFinishDate);
-            this.byId("idFuncLoc").setSelectedKey(oOrder.FunctionalLocation);
-            this.byId("idEquip").setSelectedKey(oOrder.Equipment);
+            this.byId(ID_ORDER).setValue(oOrder.Order);
+            this.byId(ID_ORDER_TYPE).setSelectedKey(oOrder.OrderType);
+            this.byId(ID_PLANT).setSelectedKey(oOrder.Plant);
+            this.byId(ID_DESCRIPTION).setValue(oOrder.Description);
+            this.byId(ID_WORK_CENTER).setSelectedKey(oOrder.WorkCenter);
+            this.byId(ID_START_DATE).setValue(oOrder.BasicStartDate);
+            this.byId(ID_FINISH_DATE).setValue(oOrder.BasicFinishDate);
+            this.byId(ID_FUNC_LOC).setSelectedKey(oOrder.FunctionalLocation);
+            this.byId(ID_EQUIP).setSelectedKey(oOrder.Equipment);
            
         },
 
         onClose(oEvent){
+            this.onClearDialog();
             this.oDialog.close();
         },
 
         onSave(oEvent) {
-
             if(this.oDialog.mProperties.title == "Create Order"){
                 const oNewOrder = {
-                    "Order": "TESTE",
-                    "OrderType": this.byId("idOrderType").getSelectedKey(),
+                    "Order": this.byId(ID_ORDER).getValue(),
+                    "OrderType": this.byId(ID_ORDER_TYPE).getSelectedKey(),
                     "Status": "Active",
-                    "Plant": this.byId("idPlant").getSelectedKey(),
-                    "Description": this.byId("idDescription").getValue(),
-                    "WorkCenter": this.byId("idWorkCenter").getSelectedKey(),
-                    "BasicStartDate": this.byId("idStartDate").getValue(),
-                    "BasicFinishDate": this.byId("idFinishDate").getValue(),
-                    "FunctionalLocation": this.byId("idFuncLoc").getSelectedKey(),
-                    "Equipment": this.byId("idEquip").getSelectedKey()
+                    "Plant": this.byId(ID_PLANT).getSelectedKey(),
+                    "Description": this.byId(ID_DESCRIPTION).getValue(),
+                    "WorkCenter": this.byId(ID_WORK_CENTER).getSelectedKey(),
+                    "BasicStartDate": this.byId(ID_START_DATE).getValue(),
+                    "BasicFinishDate": this.byId(ID_FINISH_DATE).getValue(),
+                    "FunctionalLocation": this.byId(ID_FUNC_LOC).getSelectedKey(),
+                    "Equipment": this.byId(ID_EQUIP).getSelectedKey()
                 };
     
                 const oModel = this.getView().getModel();
@@ -184,16 +227,16 @@ sap.ui.define([
             } else {            
 
                 const oUpdateOrder = {
-                    "Order": this.byId("idOrder").getValue(),
-                    "OrderType": this.byId("idOrderType").getSelectedKey(),
+                    "Order": this.byId(ID_ORDER).getValue(),
+                    "OrderType": this.byId(ID_ORDER_TYPE).getSelectedKey(),
                     "Status": "In Progress",
-                    "Plant": this.byId("idPlant").getSelectedKey(),
-                    "Description": this.byId("idDescription").getValue(),
-                    "WorkCenter": this.byId("idWorkCenter").getSelectedKey(),
-                    "BasicStartDate": this.byId("idStartDate").getValue(),
-                    "BasicFinishDate": this.byId("idFinishDate").getValue(),
-                    "FunctionalLocation": this.byId("idFuncLoc").getSelectedKey(),
-                    "Equipment": this.byId("idEquip").getSelectedKey()
+                    "Plant": this.byId(ID_PLANT).getSelectedKey(),
+                    "Description": this.byId(ID_DESCRIPTION).getValue(),
+                    "WorkCenter": this.byId(ID_WORK_CENTER).getSelectedKey(),
+                    "BasicStartDate": this.byId(ID_START_DATE).getValue(),
+                    "BasicFinishDate": this.byId(ID_FINISH_DATE).getValue(),
+                    "FunctionalLocation": this.byId(ID_FUNC_LOC).getSelectedKey(),
+                    "Equipment": this.byId(ID_EQUIP).getSelectedKey()
                 };
 
                 const oModel = this.getView().getModel();
@@ -213,13 +256,38 @@ sap.ui.define([
         },
 
         onClearDialog(){
-            [
-                "idDescription","idStartDate", "idFinishDate"
-            ].forEach((id) => {
-                const oControl = this.byId(id);
-                oControl.setValue("");
-            });
+            this.byId(ID_ORDER).setValue('');
+            this.byId(ID_ORDER_TYPE).setSelectedKey('');
+            this.byId(ID_PLANT).setSelectedKey('');
+            this.byId(ID_DESCRIPTION).setValue('');
+            this.byId(ID_WORK_CENTER).setSelectedKey('');
+            this.byId(ID_START_DATE).setValue('');
+            this.byId(ID_FINISH_DATE).setValue('');
+            this.byId(ID_FUNC_LOC).setSelectedKey('');
+            this.byId(ID_EQUIP).setSelectedKey('');
+        },
+
+        onDateChange(oEvent) {
+            this.validateDates();
+        },
+
+        validateDates() {
+            const oStartDate = this.byId(ID_START_DATE).getValue();
+            const oFinishDate = this.byId(ID_FINISH_DATE).getValue();
+        
+            const startDate = oStartDate ? new Date(oStartDate) : null;
+            const finishDate = oFinishDate ? new Date(oFinishDate) : null;
+        
+            if (startDate && finishDate) {
+                if (finishDate < startDate) {
+                    this.byId(ID_FINISH_DATE).setValue("");
+                    sap.m.MessageToast.show("A data inicial não pode ser menor que a data inicial.");
+                }
+            }        
         }
+        
+
+
         //#endregion
     });
 });

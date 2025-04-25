@@ -3,9 +3,9 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core">
-	<Dialog id="addDialog" title="Create Order" contentWidth="30%">
+	<Dialog id="addDialog" title="Create Order" contentWidth="50%">
     <content>
-        <VBox>
+        <VBox class="sapUiMediumMargin">
             <f:SimpleForm id="formContainer">
                 <f:content>
                     <Label text="Order"/>
@@ -36,10 +36,10 @@
                     </Select>
 
                     <Label text="Basic Start Date"/>
-                    <DatePicker id="idStartDate" placeholder="Basic Start Date" required="true"  displayFormat="dd/MM/yyyy" valueFormat="yyyy-MM-dd"/>
+                    <DatePicker id="idStartDate" placeholder="Basic Start Date" required="true" change="onDateChange" displayFormat="dd/MM/yyyy" valueFormat="yyyy-MM-dd"/>
 
                     <Label text="Basic Finish Date"/>
-                    <DatePicker id="idFinishDate" placeholder="Basic Finish Date" required="true"  displayFormat="dd/MM/yyyy" valueFormat="yyyy-MM-dd"/>
+                    <DatePicker id="idFinishDate" placeholder="Basic Finish Date" required="true" change="onDateChange" displayFormat="dd/MM/yyyy" valueFormat="yyyy-MM-dd"/>
 
                     <Label text="Functional Location"/>
                     <Select id="idFuncLoc" items="{filters>/functionalLocations}" required="true">

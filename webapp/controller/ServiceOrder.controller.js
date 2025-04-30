@@ -50,7 +50,7 @@ sap.ui.define([
         onExit(){
             console.log('onExit')
         },
-        
+
         //#region Set MockData
 
         onSetUserModel(){
@@ -58,11 +58,11 @@ sap.ui.define([
           oModel.loadData("model/mockData.json");
         
           oModel.attachRequestCompleted(() => {
-            console.log("Mock data carregado com sucesso:", oModel.getData());
+            console.log("Mock data loaded successfully:", oModel.getData());
           });
         
           oModel.attachRequestFailed(() => {
-            console.error("Erro ao carregar mockData.json");
+            console.error("Error loading mockData.json");
           });
         
           this.getView().setModel(oModel);
@@ -73,11 +73,11 @@ sap.ui.define([
             oFilterModel.loadData("model/filtersMock.json");
 
             oFilterModel.attachRequestCompleted(() => {
-                console.log("Mock data carregado com sucesso:", oFilterModel.getData());
+                console.log("Mock data loaded successfully:", oFilterModel.getData());
             });
             
             oFilterModel.attachRequestFailed(() => {
-                console.error("Erro ao carregar mockData.json");
+                console.error("Error loading mockData.json");
             });
             
             this.getView().setModel(oFilterModel, "filters");
@@ -108,6 +108,7 @@ sap.ui.define([
             const oTable = this.byId("idOrdersTable");
             const oBinding = oTable.getBinding("items");
             oBinding.filter(this._oGloballyFilter, "Application");
+            this.byId("title").setText("Orders (" + oBinding.aIndices.length + ")");
         },
 
         onDeleteOrders(oEvent){
@@ -214,18 +215,24 @@ sap.ui.define([
                     "FunctionalLocation": this.byId(ID_FUNC_LOC).getSelectedKey(),
                     "Equipment": this.byId(ID_EQUIP).getSelectedKey()
                 };
+
+                const oValidation = this._validateFields(oNewOrder);
+
+                if (!oValidation.valid) {
+                    sap.m.MessageToast.show("Fill in the required field: " + oValidation.missingField);
+                    return;
+                }
     
                 const oModel = this.getView().getModel();
                 const aOrders = oModel.getProperty("/Orders") || [];
                 aOrders.unshift(oNewOrder);
                 oModel.setProperty("/Orders", aOrders);
     
-                sap.m.MessageToast.show("Ordem criada com sucesso!");
+                sap.m.MessageToast.show("Order created successfully!");
                 this.onClearDialog();
                 this.oDialog.close();
                 this.byId("title").setText("Orders (" + aOrders.length + ")");
             } else {            
-
                 const oUpdateOrder = {
                     "Order": this.byId(ID_ORDER).getValue(),
                     "OrderType": this.byId(ID_ORDER_TYPE).getSelectedKey(),
@@ -239,6 +246,13 @@ sap.ui.define([
                     "Equipment": this.byId(ID_EQUIP).getSelectedKey()
                 };
 
+                const oValidation = this._validateFields(oUpdateOrder);
+
+                if (!oValidation.valid) {
+                    sap.m.MessageToast.show("Fill in the required field:: " + oValidation.missingField);
+                    return;
+                }
+
                 const oModel = this.getView().getModel();
                 const aOrders = oModel.getProperty("/Orders") || [];
 
@@ -248,11 +262,26 @@ sap.ui.define([
                     aOrders[iIndex] = oUpdateOrder;
                     oModel.setProperty("/Orders", aOrders);
 
-                    sap.m.MessageToast.show("Order updated with sucess!");
+                    sap.m.MessageToast.show("Order updated successfully!");
                     this.onClearDialog();
                     this.oDialog.close();
                 }
             }
+        },
+
+        _validateFields(oData){
+            for (var key in oData) {
+                if (
+                  oData.hasOwnProperty(key) &&
+                  (oData[key] === undefined || oData[key] === null || oData[key].toString().trim() === "")
+                ) {
+                  return {
+                    valid: false,
+                    missingField: key
+                  };
+                }
+              }
+              return { valid: true };
         },
 
         onClearDialog(){
@@ -281,7 +310,7 @@ sap.ui.define([
             if (startDate && finishDate) {
                 if (finishDate < startDate) {
                     this.byId(ID_FINISH_DATE).setValue("");
-                    sap.m.MessageToast.show("A data inicial não pode ser menor que a data inicial.");
+                    sap.m.MessageToast.show("The start date cannot be less than the start date!");
                 }
             }        
         }

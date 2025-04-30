@@ -33,7 +33,7 @@ sap.ui.define([
      const FUNCTIONAL_LOCATION = "FunctionalLocation";
      const EQUIPMENT = "Equipment";
 
-    return Controller.extend("project1.controller.View1", {
+    return Controller.extend("project1.controller.ServiceOrder", {
         onInit() {
             this.onSetUserModel();
             this.onSetListModel();
@@ -139,7 +139,7 @@ sap.ui.define([
         onOpenAddDialog(oEvent) {
             if(!this.oAddDialog) {
                 this.oAddDialog = this.loadFragment({
-					name: "project1.view.dialog.View1Dialog",
+					name: "project1.view.dialog.ServiceOrderDialog",
                     controller: this
                   });
             }
@@ -169,7 +169,7 @@ sap.ui.define([
         onOrderEditDialog(oEvent) {
             if(!this.oAddDialog){
                 this.oAddDialog = this.loadFragment({
-				name: "project1.view.dialog.View1Dialog",
+				name: "project1.view.dialog.ServiceOrderDialog",
                 controller: this
               });
             }

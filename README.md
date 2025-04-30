@@ -51,9 +51,8 @@ Since this project does not rely on a real backend, a mock JSON file is used to 
 
 ## 📸 Screenshot
 
-> _Add a screenshot or GIF here to show the UI in action._
+![image](https://github.com/user-attachments/assets/da5546ba-3d87-4682-9308-d2cd3c75e3d2)
 
----
 
 ## 📌 Disclaimer
 
